@@ -4,6 +4,7 @@ import SearchBar from "./components/SearchBar";
 import "./App.css";
 
 function App() {
+  const [searchResult, setSearchResult] = useState(null);
   const [pokemon, setPokemon] = useState([]);
   const [search, setSearch] = useState("");
 
@@ -15,6 +16,34 @@ function App() {
 
   const loader = useRef(null);
   const isFetching = useRef(false);
+  
+  async function searchPokemon(name) {
+
+    if (name === "") {
+        setSearchResult(null);
+        return;
+    }
+
+    try {
+
+        const res = await fetch(
+            `https://pokeapi.co/api/v2/pokemon/${name.toLowerCase()}`
+        );
+
+        if (!res.ok) {
+            setSearchResult([]);
+            return;
+        }
+
+        const data = await res.json();
+
+        setSearchResult([data]);
+
+    } catch {
+        setSearchResult([]);
+    }
+
+}
 
   const fetchPokemon = useCallback(async () => {
     if (isFetching.current || !nextUrl) return;
@@ -87,6 +116,16 @@ function App() {
     };
   }, [fetchPokemon, nextUrl]);
 
+  useEffect(() => {
+
+    const timeout = setTimeout(() => {
+        searchPokemon(search);
+    }, 300);
+
+    return () => clearTimeout(timeout);
+
+}, [search]);
+
   const filteredPokemon = pokemon.filter((poke) =>
     poke.name.toLowerCase().includes(search.toLowerCase())
   );
@@ -100,7 +139,9 @@ function App() {
         setSearch={setSearch}
       />
 
-      <PokemonList pokemon={filteredPokemon} />
+      <PokemonList
+    pokemon={search ? searchResult ?? [] : pokemon}
+/>
 
       {loading && <h2>Loading Pokémon...</h2>}
 
