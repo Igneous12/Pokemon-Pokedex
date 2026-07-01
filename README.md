@@ -19,5 +19,5 @@ The application is designed with infinite scrolling to efficiently display a lar
 | Browser API        | Intersection Observer | Infinite scrolling                  |
 | Runtime            | Node.js               | Development environment             |
 | Package Manager    | npm                   | Dependency management               |
-| Version Control    | Git (Optional)        | Source control                      |
-| Repository Hosting | GitHub (Optional)     | Project hosting                     |
+| Version Control    | Git                   | Source control                      |
+| Repository Hosting | GitHub                | Project hosting                     |
