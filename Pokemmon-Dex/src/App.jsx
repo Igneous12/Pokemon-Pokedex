@@ -132,7 +132,7 @@ function App() {
 
   return (
     <div className="container">
-      <h1>React Pokédex</h1>
+      <h1>Pokédex</h1>
 
       <SearchBar
         search={search}
